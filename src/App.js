@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+// 컴포넌트 import 하기 
+import HomePage from './pages/HomePage';
+import SettingPage from './pages/SettingPage';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
+import {useState} from 'react'
+import GlobalStyle from './GlobalStyles';
 
 function App() {
+
+  const [name, setName] = useState('HY')
+  const handleNameChange = (e) => {
+    setName(e.target.value)
+    console.log("name", name)
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <GlobalStyle />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} name={name}></Route>
+        <Route path="/setting" element={<SettingPage />} name={name} handleNameChange={handleNameChange}></Route>
+      </Routes>
+    </BrowserRouter>
+    {/* <MemoApp /> */}
+    </>
+
   );
 }
 
