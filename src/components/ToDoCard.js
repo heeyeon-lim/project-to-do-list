@@ -52,9 +52,8 @@ border: red;
   margin-left: 15px;
   padding-left: 5px;
   font-size: 1.15rem;
-  border: ${(props) => (props.readOnly ? '1.2px solid #767676' : 'none')}; 
+  border: ${(props) => (props.readOnly ? 'none' : '1.2px solid #767676')}; 
   outline: transparent;
-  /* border: 1px solid red; */
   }
 `
 
@@ -63,6 +62,13 @@ const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
     const updatedTodos = todos.filter((data) => data.id !== todo.id);
     setTodos(updatedTodos);
   }
+
+  const [title, setTitle] = useState(todo.title)
+
+  const handleEditTitle = (e) => {
+    setTitle(e.target.value)
+  }
+
   
     return (
       <li className='to-do-list' id={todo.id}>
@@ -72,8 +78,8 @@ const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
             <img role="button" src={CloseIcon} onClick={handleDeleteClick} alt="Delete button" />
           </div>
           <div className='form-container'>
-            <TitleContainer>
-              <input type="text" className='input-title' value={todo.title} readOnly={!todo.onEdit} />
+            <TitleContainer readOnly={!todo.onEdit}>
+              <input readOnly={!todo.onEdit} type="text" className='input-title' value={title} onChange={handleEditTitle}/>
             </TitleContainer>
             <Tag todo={todo} />
             <DatePickerComponent todo={todo}/>

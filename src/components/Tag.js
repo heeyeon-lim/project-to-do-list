@@ -94,7 +94,7 @@ const Tag = ({todo}) => {
                 {tags.map((tag, index) => (
                   <li key={index} className='tag'>
                     <span className='tag-title'>{tag}</span>
-                      <span readOnly={!todo.onEdit} className='tag-close-icon' onClick={() => removeTags(index)}> &times; </span>
+                      <span className='tag-close-icon' onClick={() => removeTags(index)}> &times; </span>
                   </li>
                 ))}
               </ul>
