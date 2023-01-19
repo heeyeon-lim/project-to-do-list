@@ -11,7 +11,6 @@ function App() {
   const [name, setName] = useState('HY')
   const handleNameChange = (e) => {
     setName(e.target.value)
-    console.log("name", name)
   }
 
 
@@ -20,8 +19,8 @@ function App() {
     <GlobalStyle />
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} name={name}></Route>
-        <Route path="/setting" element={<SettingPage />} name={name} handleNameChange={handleNameChange}></Route>
+        <Route path="/" element={<HomePage name={name}/>}></Route>
+        <Route path="/setting" element={<SettingPage name={name} handleNameChange={handleNameChange} />}></Route>
       </Routes>
     </BrowserRouter>
     {/* <MemoApp /> */}
