@@ -1,4 +1,5 @@
 // 컴포넌트 import 하기 
+// 수정
 import GreetingBar from '../components/GreetingBar';
 import SettingIcon from '../components/SettingIcon'
 import SearchBar from '../components/SearchBar';
