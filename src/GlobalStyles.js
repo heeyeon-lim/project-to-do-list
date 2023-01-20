@@ -29,6 +29,7 @@ const GlobalStyle = createGlobalStyle`
   display: grid;
   grid-gap: 3.6%;
   grid-template-columns: repeat(3, 1fr);
+  background-color: grey;
 }
 
 

@@ -11,30 +11,35 @@ import {useState} from 'react'
 
 function HomePage({name}) {
 
-    const statusBarData = [{name: 'Not Started', color: ' #fbdbd5'}, {name: 'In Progress', color: '#FCE8BC'}, {name: 'Completed', color: '#D3E9D3'}]
-
-  const [todos, setTodos] = useState(dummyData)
+    const [todoId, setTodoId] = useState(dummyData.length)
+    const [todos, setTodos] = useState(dummyData)
+    const [keyword, setKeyword] = useState('')
 
   const handleEditClick = (e) => {
     const updatedTodos = [...todos];
-    updatedTodos[e.target.id].onEdit = true
+    const matchedIdx = updatedTodos.findIndex((el) => el.id === Number(e.target.id))
+    updatedTodos[matchedIdx].onEdit = true;
     setTodos(updatedTodos)
-  }
-
-  const handleAddToDo = () => {
-    const newTodo = {}
-
-    newTodo['id'] = dummyData.length
-    newTodo['status'] = 'Not Started'
-    newTodo['title'] = ''
-    newTodo['tags'] = ''
-    newTodo['date'] = ''
-    newTodo['onEdit'] = false
-
-    setTodos([...todos, newTodo])
-    console.log(todos)
-    console.log(newTodo)
 }
+
+    const handleAddToDo = () => {
+        console.log('handleAddToDo가 실행됩니다.')
+        const newTodo = {};
+
+        //dummyData.length는 변하지않고, todos.length는 삭제되면서 id값이 변동될 수 있다. 그러므로 id를 상태로 만든다.
+        newTodo.id = todoId;
+        newTodo.status = 'Not Started';
+        newTodo.title = '';
+        newTodo.tags = [];
+        newTodo.date = '';
+        newTodo.onEdit = false;
+
+        setTodoId(todoId + 1);
+        
+        console.log('Updated Todos:', [...todos, newTodo]) // 제대로 추가되서 나옵니다.
+        setTodos([...todos, newTodo])
+        console.log('Updated State', todos) // 상태가 업데이트 되지 않았습니다.
+    }
 
     const handleSaveAll = () => {
         const updatedTodos = todos.map(data => {
@@ -43,6 +48,8 @@ function HomePage({name}) {
         setTodos(updatedTodos)
     }
 
+    const statusBarData = [{name: 'Not Started', color: ' #fbdbd5'}, {name: 'In Progress', color: '#FCE8BC'}, {name: 'Completed', color: '#D3E9D3'}]
+
   return (
     <div className="app" onClick={handleSaveAll}>
         <header className="header">
@@ -50,7 +57,7 @@ function HomePage({name}) {
         <SettingIcon />
         </header>
         <div className="search">
-        <SearchBar />
+        <SearchBar setKeyword={setKeyword}/>
         </div>
         <main className="main">
         <section className="section1">
@@ -60,10 +67,10 @@ function HomePage({name}) {
                 .map(bar => 
                 <StatusBar handleAddToDo={handleAddToDo} bar={bar} todos={todos} />)}
             </ul>
-            {/* <StatusBar handleAddToDo={handleAddToDo}/> */}
             <ul>
                 {todos
                 .filter(todo => todo.status==='Not Started')
+                .filter(todo => todo.title.includes(keyword))
                 .map(todo => 
                 <ToDoCard
                 key={todo.id}
@@ -74,7 +81,6 @@ function HomePage({name}) {
             </ul>
         </section>
         <section className="section2">
-            {/* <StatusBar handleAddToDo={handleAddToDo}/> */}
             <ul className='status-bar'>
                 {statusBarData
                 .filter(bar => bar.name === 'In Progress')
@@ -84,6 +90,7 @@ function HomePage({name}) {
             <ul>
                 {todos
                 .filter(todo => todo.status==='In Progress')
+                .filter(todo => todo.title.includes(keyword))
                 .map(todo => 
                 <ToDoCard
                 key={todo.id}
@@ -94,7 +101,6 @@ function HomePage({name}) {
             </ul>
         </section>
         <section className="section3">
-            {/* <StatusBar handleAddToDo={handleAddToDo}/> */}
             <ul className='status-bar'>
                 {statusBarData
                 .filter(bar => bar.name === 'Completed')
@@ -104,6 +110,7 @@ function HomePage({name}) {
             <ul>
                 {todos
                 .filter(todo => todo.status==='Completed')
+                .filter(todo => todo.title.includes(keyword))
                 .map(todo => 
                 <ToDoCard
                 key={todo.id}

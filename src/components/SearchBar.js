@@ -36,12 +36,13 @@ const SearchBarWrapper = styled.div`
     }
 `
 
-const SearchBar= () => {
+const SearchBar= ({setKeyword}) => {
+
     return (
         <SearchBarContainer>
             <SearchBarWrapper>
                 <img className="search-icon" src={SearchIcon} />
-                <input className="search-input" type='text' placeholder='Search by keywords' />
+                <input className="search-input" type='text' placeholder='Search by keywords' onChange={ (event) => setKeyword(event.target.value)} />
             </SearchBarWrapper>
         </SearchBarContainer>
     )
