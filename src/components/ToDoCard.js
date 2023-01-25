@@ -1,9 +1,10 @@
-import {useState} from 'react'
 import styled from 'styled-components'
 import Tag from './Tag';
 import DatePickerComponent from './DatePicker'
 import EditIcon from '../EditIcon.png'
 import CloseIcon from '../CloseIcon.png'
+
+import useInput from '../hooks/useInput';
 
 const ToDoWrapper = styled.div`
 width: 100%;
@@ -63,12 +64,7 @@ const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
     setTodos(updatedTodos);
   }
 
-  const [title, setTitle] = useState(todo.title)
-
-  const handleEditTitle = (e) => {
-    setTitle(e.target.value)
-  }
-
+  const [title, titleBind] = useInput(todo.title)
   
     return (
       <li className='to-do-list' id={todo.id}>
@@ -79,7 +75,7 @@ const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
           </div>
           <div className='form-container'>
             <TitleContainer readOnly={!todo.onEdit}>
-              <input readOnly={!todo.onEdit} type="text" className='input-title' value={title} onChange={handleEditTitle}/>
+              <input readOnly={!todo.onEdit} type="text" className='input-title' {...titleBind}/>
             </TitleContainer>
             <Tag todo={todo} />
             <DatePickerComponent todo={todo}/>

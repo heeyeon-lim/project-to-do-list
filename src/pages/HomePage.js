@@ -9,11 +9,13 @@ import {todoData, statusBarData} from '../dummyData';
 
 import {useState} from 'react'
 
+import useInput from '../hooks/useInput';
+
 function HomePage({name, selectedLang, selectedTheme}) {
 
     const [todoId, setTodoId] = useState(todoData.length)
     const [todos, setTodos] = useState(todoData)
-    const [keyword, setKeyword] = useState('')
+    const [keyword, keywordBind] = useInput('')
 
   const handleEditClick = (e) => {
     const updatedTodos = [...todos];
@@ -61,7 +63,7 @@ function HomePage({name, selectedLang, selectedTheme}) {
         <SettingIcon />
         </header>
         <div className="search">
-        <SearchBar setKeyword={setKeyword}/>
+        <SearchBar keywordBind={keywordBind}/>
         </div>
         <main className="main">
         <section className="section1">

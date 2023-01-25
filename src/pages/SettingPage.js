@@ -1,11 +1,7 @@
 import styled from 'styled-components';
-import {useState} from 'react';
 import LightThemeImage from '../LightThemeImage.png';
 import DarkThemeImage from '../DarkThemeImage.png';
 import {Link} from 'react-router-dom'
-
-// import { settingData } from '../dummyData';
-
 
 const NameContainer = styled.div`
 display: flex; 
@@ -99,7 +95,7 @@ font-size: 1rem;
 font-weight: 500;
 `
 
-const SettingPage = ({name, handleNameChange, handleChangeLang, handleChangeTheme, selectedLang, selectedTheme}) => {
+const SettingPage = ({nameBind, handleChangeLang, handleChangeTheme, selectedLang, selectedTheme}) => {
 
 
     return (
@@ -107,7 +103,7 @@ const SettingPage = ({name, handleNameChange, handleChangeLang, handleChangeThem
             <div className='setting-options-container'>
                 <NameContainer>
                     <label htmlFor='InputName'>Name</label>
-                    <input type="text" id='InputName' value={name} onChange={handleNameChange} />
+                    <input type="text" id='InputName' {...nameBind} />
                 </NameContainer>
 
                 <LanguageContainer className='language-options-container'>
