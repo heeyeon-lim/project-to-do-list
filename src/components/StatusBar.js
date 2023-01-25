@@ -50,8 +50,8 @@ const StatusBar = ({handleAddToDo, bar, todos}) => {
         <StatusBarWrapper style={{ backgroundColor: bar.color }}>
             <TextContainer>{bar.name}</TextContainer>
             <NumContainer>{todos.filter(todo => todo.status === bar.name).length}</NumContainer>
-            <CreateBtnContainer>
-                <img role='button' src={CreateIcon} onClick={handleAddToDo}/>
+            <CreateBtnContainer onClick={event => event.stopPropagation()}>
+                <img id={bar.id} role='button' src={CreateIcon} onClick={handleAddToDo}/>
             </CreateBtnContainer>
         </StatusBarWrapper>
         </li>

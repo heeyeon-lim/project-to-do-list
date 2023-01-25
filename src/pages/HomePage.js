@@ -9,7 +9,7 @@ import dummyData from '../dummyData';
 
 import {useState} from 'react'
 
-function HomePage({name}) {
+function HomePage({name, language}) {
 
     const [todoId, setTodoId] = useState(dummyData.length)
     const [todos, setTodos] = useState(dummyData)
@@ -22,13 +22,19 @@ function HomePage({name}) {
     setTodos(updatedTodos)
 }
 
-    const handleAddToDo = () => {
+    const handleAddToDo = (e) => {
         console.log('handleAddToDo가 실행됩니다.')
+        console.log('e:', e.target.id)
+        
         const newTodo = {};
-
+        
         //dummyData.length는 변하지않고, todos.length는 삭제되면서 id값이 변동될 수 있다. 그러므로 id를 상태로 만든다.
         newTodo.id = todoId;
-        newTodo.status = 'Not Started';
+
+        if (e.target.id === '0') newTodo.status = 'Not Started'
+        if (e.target.id === '1') newTodo.status = 'In Progress'
+        if (e.target.id === '2') newTodo.status = 'Completed'
+
         newTodo.title = '';
         newTodo.tags = [];
         newTodo.date = '';
@@ -48,12 +54,12 @@ function HomePage({name}) {
         setTodos(updatedTodos)
     }
 
-    const statusBarData = [{name: 'Not Started', color: ' #fbdbd5'}, {name: 'In Progress', color: '#FCE8BC'}, {name: 'Completed', color: '#D3E9D3'}]
+    const statusBarData = [{id: 0, name: 'Not Started', color: ' #fbdbd5'}, {id: 1, name: 'In Progress', color: '#FCE8BC'}, {id: 2, name: 'Completed', color: '#D3E9D3'}]
 
   return (
     <div className="app" onClick={handleSaveAll}>
         <header className="header">
-        <GreetingBar className="greetingBar" name={name} />
+        <GreetingBar className="greetingBar" name={name} language={language} />
         <SettingIcon />
         </header>
         <div className="search">
@@ -65,7 +71,7 @@ function HomePage({name}) {
                 {statusBarData
                 .filter(bar => bar.name === 'Not Started')
                 .map(bar => 
-                <StatusBar handleAddToDo={handleAddToDo} bar={bar} todos={todos} />)}
+                <StatusBar key={bar.id} handleAddToDo={handleAddToDo} bar={bar} todos={todos} />)}
             </ul>
             <ul>
                 {todos
@@ -85,7 +91,7 @@ function HomePage({name}) {
                 {statusBarData
                 .filter(bar => bar.name === 'In Progress')
                 .map(bar => 
-                <StatusBar handleAddToDo={handleAddToDo} bar={bar} todos={todos} />)}
+                <StatusBar key={bar.id} handleAddToDo={handleAddToDo} bar={bar} todos={todos} />)}
             </ul>
             <ul>
                 {todos
@@ -105,7 +111,7 @@ function HomePage({name}) {
                 {statusBarData
                 .filter(bar => bar.name === 'Completed')
                 .map(bar => 
-                <StatusBar handleAddToDo={handleAddToDo} bar={bar} todos={todos} />)}
+                <StatusBar key={bar.id} handleAddToDo={handleAddToDo} bar={bar} todos={todos} />)}
             </ul>
             <ul>
                 {todos
