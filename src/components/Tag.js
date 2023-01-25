@@ -37,7 +37,7 @@ border: ${(props) => (props.readOnly ? 'none' : '1.2px solid #767676')};
 
       > .tag-close-icon {
         color: #231F20;
-        visibility: ${(props) => (props.readOnly ? 'hidden' : 'visible')}
+        display: ${(props) => (props.readOnly ? 'none' : 'visible')}
       }
     }
   }
