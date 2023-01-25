@@ -46,7 +46,6 @@ align-items: center;
 
 const StatusBar = ({handleAddToDo, bar, todos}) => {
     return (
-        <li>
         <StatusBarWrapper style={{ backgroundColor: bar.color }}>
             <TextContainer>{bar.name}</TextContainer>
             <NumContainer>{todos.filter(todo => todo.status === bar.name).length}</NumContainer>
@@ -54,7 +53,6 @@ const StatusBar = ({handleAddToDo, bar, todos}) => {
                 <img id={bar.id} role='button' src={CreateIcon} onClick={handleAddToDo}/>
             </CreateBtnContainer>
         </StatusBarWrapper>
-        </li>
     )
 }
 

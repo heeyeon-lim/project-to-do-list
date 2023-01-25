@@ -2,8 +2,7 @@
 import GreetingBar from '../components/GreetingBar';
 import SettingIcon from '../components/SettingIcon'
 import SearchBar from '../components/SearchBar';
-import StatusBar from '../components/StatusBar'
-import ToDoCard from '../components/ToDoCard';
+import Section from '../components/Section';
 
 import {todoData, statusBarData} from '../dummyData';
 
@@ -13,6 +12,7 @@ import useInput from '../hooks/useInput';
 
 function HomePage({name, selectedLang, selectedTheme}) {
 
+    // todoData.length는 변하지않고, todos.length는 삭제되면서 id값이 변동될 수 있다. 그러므로 id를 상태로 만든다.
     const [todoId, setTodoId] = useState(todoData.length)
     const [todos, setTodos] = useState(todoData)
     const [keyword, keywordBind] = useInput('')
@@ -25,28 +25,20 @@ function HomePage({name, selectedLang, selectedTheme}) {
 }
 
     const handleAddToDo = (e) => {
-        console.log('handleAddToDo가 실행됩니다.')
-        console.log('e:', e.target.id)
-        
-        const newTodo = {};
-        
-        //todoData.length는 변하지않고, todos.length는 삭제되면서 id값이 변동될 수 있다. 그러므로 id를 상태로 만든다.
-        newTodo.id = todoId;
+        const newTodo = {
+        id: todoId,
+        title: '',
+        tags: [],
+        date: '',
+        onEdit: false
+        };
 
         if (e.target.id === '0') newTodo.status = 'Not Started'
         if (e.target.id === '1') newTodo.status = 'In Progress'
         if (e.target.id === '2') newTodo.status = 'Completed'
 
-        newTodo.title = '';
-        newTodo.tags = [];
-        newTodo.date = '';
-        newTodo.onEdit = false;
-
         setTodoId(todoId + 1);
-        
-        console.log('Updated Todos:', [...todos, newTodo]) // 제대로 추가되서 나옵니다.
         setTodos([...todos, newTodo])
-        console.log('Updated State', todos) // 상태가 업데이트 되지 않았습니다.
     }
 
     const handleSaveAll = () => {
@@ -55,7 +47,8 @@ function HomePage({name, selectedLang, selectedTheme}) {
         });
         setTodos(updatedTodos)
     }
-    
+
+
   return (
     <div className={selectedTheme === 'Dark' ? "darkmode app" : "app"} onClick={handleSaveAll}>
         <header className="header">
@@ -66,66 +59,9 @@ function HomePage({name, selectedLang, selectedTheme}) {
         <SearchBar keywordBind={keywordBind}/>
         </div>
         <main className="main">
-        <section className="section1">
-            <ul className='status-bar'>
-                {statusBarData
-                .filter(bar => bar.name === 'Not Started')
-                .map(bar => 
-                <StatusBar key={bar.id} handleAddToDo={handleAddToDo} bar={bar} todos={todos} />)}
-            </ul>
-            <ul>
-                {todos
-                .filter(todo => todo.status==='Not Started')
-                .filter(todo => todo.title.includes(keyword))
-                .map(todo => 
-                <ToDoCard
-                key={todo.id}
-                todo={todo}
-                todos={todos}
-                handleEditClick={handleEditClick}
-                setTodos={setTodos} />)}
-            </ul>
-        </section>
-        <section className="section2">
-            <ul className='status-bar'>
-                {statusBarData
-                .filter(bar => bar.name === 'In Progress')
-                .map(bar => 
-                <StatusBar key={bar.id} handleAddToDo={handleAddToDo} bar={bar} todos={todos} />)}
-            </ul>
-            <ul>
-                {todos
-                .filter(todo => todo.status==='In Progress')
-                .filter(todo => todo.title.includes(keyword))
-                .map(todo => 
-                <ToDoCard
-                key={todo.id}
-                todo={todo}
-                todos={todos}
-                handleEditClick={handleEditClick}
-                setTodos={setTodos} />)}
-            </ul>
-        </section>
-        <section className="section3">
-            <ul className='status-bar'>
-                {statusBarData
-                .filter(bar => bar.name === 'Completed')
-                .map(bar => 
-                <StatusBar key={bar.id} handleAddToDo={handleAddToDo} bar={bar} todos={todos} />)}
-            </ul>
-            <ul>
-                {todos
-                .filter(todo => todo.status==='Completed')
-                .filter(todo => todo.title.includes(keyword))
-                .map(todo => 
-                <ToDoCard
-                key={todo.id}
-                todo={todo}
-                todos={todos}
-                handleEditClick={handleEditClick}
-                setTodos={setTodos} />)}
-            </ul>
-        </section>
+            <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} handleEditClick={handleEditClick} keyword={keyword} bar={statusBarData[0]} />
+            <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} handleEditClick={handleEditClick} keyword={keyword} bar={statusBarData[1]}/>
+            <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} handleEditClick={handleEditClick} keyword={keyword} bar={statusBarData[2]}/>
         </main>
     </div>
   );

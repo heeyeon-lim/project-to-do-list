@@ -16,21 +16,18 @@ const GlobalStyle = createGlobalStyle`
 }
 
 .header {
-  /* background-color: lightblue; */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .search {
-  /* background-color: lightgreen; */
 }
 
 .main {
   display: grid;
   grid-gap: 3.6%;
   grid-template-columns: repeat(3, 1fr);
-  /* background-color: grey; */
 }
 
 
@@ -50,18 +47,6 @@ const GlobalStyle = createGlobalStyle`
   .main {
   grid-template-columns: repeat(1, 1fr);
 }
-}
-
-.section1 {
-  /* background-color: mediumpurple; */
-}
-
-.section2 {
-  /* background-color: lightgoldenrodyellow; */
-}
-
-.section3 {
-  /* background-color: lightpink; */
 }
 
 //Setting Page 스타일링 
@@ -97,7 +82,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
 // list속성의 bullet point 제거
-.to-do-list, .status-bar {
+.to-do-list {
   list-style: none;
 }
 `
