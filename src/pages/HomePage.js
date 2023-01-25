@@ -5,14 +5,14 @@ import SearchBar from '../components/SearchBar';
 import StatusBar from '../components/StatusBar'
 import ToDoCard from '../components/ToDoCard';
 
-import dummyData from '../dummyData';
+import {todoData, statusBarData} from '../dummyData';
 
 import {useState} from 'react'
 
-function HomePage({name, language}) {
+function HomePage({name, selectedLang, selectedTheme}) {
 
-    const [todoId, setTodoId] = useState(dummyData.length)
-    const [todos, setTodos] = useState(dummyData)
+    const [todoId, setTodoId] = useState(todoData.length)
+    const [todos, setTodos] = useState(todoData)
     const [keyword, setKeyword] = useState('')
 
   const handleEditClick = (e) => {
@@ -28,7 +28,7 @@ function HomePage({name, language}) {
         
         const newTodo = {};
         
-        //dummyData.length는 변하지않고, todos.length는 삭제되면서 id값이 변동될 수 있다. 그러므로 id를 상태로 만든다.
+        //todoData.length는 변하지않고, todos.length는 삭제되면서 id값이 변동될 수 있다. 그러므로 id를 상태로 만든다.
         newTodo.id = todoId;
 
         if (e.target.id === '0') newTodo.status = 'Not Started'
@@ -53,13 +53,11 @@ function HomePage({name, language}) {
         });
         setTodos(updatedTodos)
     }
-
-    const statusBarData = [{id: 0, name: 'Not Started', color: ' #fbdbd5'}, {id: 1, name: 'In Progress', color: '#FCE8BC'}, {id: 2, name: 'Completed', color: '#D3E9D3'}]
-
+    
   return (
-    <div className="app" onClick={handleSaveAll}>
+    <div className={selectedTheme === 'Dark' ? "darkmode app" : "app"} onClick={handleSaveAll}>
         <header className="header">
-        <GreetingBar className="greetingBar" name={name} language={language} />
+        <GreetingBar className="greetingBar" name={name} selectedLang={selectedLang} />
         <SettingIcon />
         </header>
         <div className="search">

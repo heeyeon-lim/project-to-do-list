@@ -1,28 +1,44 @@
 import React, { useState } from 'react';
 
+const Example = () => {
+  const [language, setLanguage] = useState('English');
+  const [theme, setTheme] = useState('Light');
 
-const MemoApp = () => {
-  const [divs, setDivs] = useState([
-    { key: 1, text: 'Div 1', condition: 'default' },
-    { key: 2, text: 'Div 2', condition: 'default' },
-    { key: 3, text: 'Div 3', condition: 'default' },
-  ]);
+  const handleSave = () => {
+    // save language and theme changes to local storage or API
+    localStorage.setItem('language', language);
+    localStorage.setItem('theme', theme);
+    alert(`Language: ${language} and Theme: ${theme} saved successfully`);
+  }
 
-  const handleDivClick = (index) => {
-    const updatedDivs = [...divs];
-    updatedDivs[index].condition = 'clicked';
-    setDivs(updatedDivs);
+  const handleCancel = () => {
+    setLanguage(localStorage.getItem('language') || 'English');
+    setTheme(localStorage.getItem('theme') || 'Light');
+    alert('Changes cancelled');
   }
 
   return (
     <div>
-      {divs.map((div, index) => (
-        <div key={div.key} onClick={() => handleDivClick(index)}>
-          {div.text} - {div.condition}
-        </div>
-      ))}
+      <h1>Settings</h1>
+      <div>
+        <label>Language:</label>
+        <select value={language} onChange={e => setLanguage(e.target.value)}>
+          <option value="English">English</option>
+          <option value="Spanish">Spanish</option>
+          <option value="French">French</option>
+        </select>
+      </div>
+      <div>
+        <label>Theme:</label>
+        <select value={theme} onChange={e => setTheme(e.target.value)}>
+          <option value="Light">Light</option>
+          <option value="Dark">Dark</option>
+        </select>
+      </div>
+      <button onClick={handleSave}>Save</button>
+      <button onClick={handleCancel}>Cancel</button>
     </div>
   );
 }
 
-export default MemoApp;
+export default Example

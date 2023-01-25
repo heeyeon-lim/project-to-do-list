@@ -4,6 +4,8 @@ import LightThemeImage from '../LightThemeImage.png';
 import DarkThemeImage from '../DarkThemeImage.png';
 import {Link} from 'react-router-dom'
 
+// import { settingData } from '../dummyData';
+
 
 const NameContainer = styled.div`
 display: flex; 
@@ -97,27 +99,11 @@ font-size: 1rem;
 font-weight: 500;
 `
 
-const SettingPage = ({name, handleNameChange}) => {
-
-    const [selectedLangBtn, setSelectedLangBtn] = useState(null);
-    
-    const handleLangBtnClick = (index) => {
-    if (index !== selectedLangBtn) {
-        setSelectedLangBtn(index);
-    }
-    }
-
-    const [selectedThemeBtn, setselectedThemeBtn] = useState(null);
-    
-    const handleThemeBtnClick = (index) => {
-    if (index !== selectedThemeBtn) {
-        setselectedThemeBtn(index);
-    }
-    }
+const SettingPage = ({name, handleNameChange, handleChangeLang, handleChangeTheme, selectedLang, selectedTheme}) => {
 
 
     return (
-        <main className="app-setting">
+        <main className={selectedTheme === 'Dark' ? 'darkmode setting' : 'setting'}>
             <div className='setting-options-container'>
                 <NameContainer>
                     <label htmlFor='InputName'>Name</label>
@@ -127,18 +113,18 @@ const SettingPage = ({name, handleNameChange}) => {
                 <LanguageContainer className='language-options-container'>
                     <p>Language</p>
                     <div>
-                        <LanguageBtn className={`button ${selectedLangBtn === 0 ? "active" : ""}`} onClick={() => handleLangBtnClick(0)}>English</LanguageBtn>
-                        <LanguageBtn className={`button ${selectedLangBtn === 1 ? "active" : ""}`} onClick={() => handleLangBtnClick(1)}>한국어</LanguageBtn>
+                        <LanguageBtn className={`button ${selectedLang === 'English' ? "active" : ""}`} onClick={() => handleChangeLang('English')}>English</LanguageBtn>
+                        <LanguageBtn className={`button ${selectedLang === 'Korean' ? "active" : ""}`} onClick={() => handleChangeLang('Korean')}>한국어</LanguageBtn>
                     </div>
                 </LanguageContainer>
 
                 <ThemeContainer className='theme-container'>
                     <p>Theme</p>
                     <div>
-                    <ThemeBtn className={`button ${selectedThemeBtn === 0 ? "active" : ""}`} onClick={() => handleThemeBtnClick(0)}>
+                    <ThemeBtn className={`button ${selectedTheme === 'Light' ? "active" : ""}`} onClick={() => handleChangeTheme('Light')}>
                         <img src={LightThemeImage} alt='Light theme' />
                     </ThemeBtn>
-                    <ThemeBtn className={`button ${selectedThemeBtn === 1 ? "active" : ""}`} onClick={() => handleThemeBtnClick(1)}>
+                    <ThemeBtn className={`button ${selectedTheme === 'Dark' ? "active" : ""}`} onClick={() => handleChangeTheme('Dark')}>
                         <img src={DarkThemeImage} alt='Dark theme' />
                     </ThemeBtn>
                     </div>
@@ -146,7 +132,6 @@ const SettingPage = ({name, handleNameChange}) => {
             </div>
             <div className='buttons-container'>
                 <Link to="/"><SaveCancelBtn className='save-button'>Save</SaveCancelBtn></Link>
-                <Link to="/"><SaveCancelBtn className='cancel-button'>Cancel</SaveCancelBtn></Link>
             </div>
         </main>
     )

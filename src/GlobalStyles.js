@@ -12,24 +12,25 @@ const GlobalStyle = createGlobalStyle`
   display: grid;
   grid-template-rows: 100px 50px 100vh;
   padding: 0 6%;
+  background-color: #fff;
 }
 
 .header {
-  background-color: lightblue;
+  /* background-color: lightblue; */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .search {
-  background-color: lightgreen;
+  /* background-color: lightgreen; */
 }
 
 .main {
   display: grid;
   grid-gap: 3.6%;
   grid-template-columns: repeat(3, 1fr);
-  background-color: grey;
+  /* background-color: grey; */
 }
 
 
@@ -52,24 +53,29 @@ const GlobalStyle = createGlobalStyle`
 }
 
 .section1 {
-  background-color: mediumpurple;
+  /* background-color: mediumpurple; */
 }
 
 .section2 {
-  background-color: lightgoldenrodyellow;
+  /* background-color: lightgoldenrodyellow; */
 }
 
 .section3 {
-  background-color: lightpink;
+  /* background-color: lightpink; */
 }
 
 //Setting Page 스타일링 
-.app-setting {
+.setting {
   width: 100vw;
   height: 100vh;
   padding: 3% 6%;
   display: grid; 
   grid-template-rows: 5fr 1fr;
+  background-color: #fff;
+}
+
+.darkmode {
+  background-color: #404040;
 }
 
 .setting-options-container {

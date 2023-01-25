@@ -19,11 +19,11 @@ const GreetingBarContainer= styled.div`
     }
 `
 
-const GreetingBar= ({name, language}) => {
+const GreetingBar= ({name, selectedLang}) => {
     return (
         <GreetingBarContainer>
             <div>
-            {name}'s {language === 'English' ? 'To Do List' : '투두리스트'}
+            {name}'s {selectedLang === 'English' ? 'To Do List' : '투두리스트'}
             </div>
         </GreetingBarContainer>
     )

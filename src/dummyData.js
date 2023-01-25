@@ -1,4 +1,4 @@
-const dummyData = [
+export const todoData = [
     {
         id: 0,
         status: 'Not Started',
@@ -33,4 +33,14 @@ const dummyData = [
     },
 ];
 
-export default dummyData;
+export const statusBarData = [
+    {id: 0, name: 'Not Started', color: ' #fbdbd5'},
+    {id: 1, name: 'In Progress', color: '#FCE8BC'},
+    {id: 2, name: 'Completed', color: '#D3E9D3'}
+]
+
+export const settingData = [
+    {name: 'HY'}, 
+    {language: 'English'},
+    {theme: 'Light'},
+]
