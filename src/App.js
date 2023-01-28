@@ -1,51 +1,52 @@
 // 컴포넌트 import 하기 
 import HomePage from './pages/HomePage';
 import SettingPage from './pages/SettingPage';
-import { settingData } from './dummyData';
+// import { settingData } from './dummyData';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import GlobalStyle from './GlobalStyles';
 
 import useInput from './hooks/useInput';
+import useFetch from './hooks/useFetch';
 
 function App() {
 
-  const [name, nameBind] = useInput('HY')
+  const [settingData, setSettingData] = useState()
 
-  const [selectedLang, setSelectedLang] = useState(settingData[1].language);
+  useEffect(() => {
+      fetch('http://localhost:4001/setting')
+      .then(res => {
+        if (!res.ok) {
+          throw Error('could not fetch the data for that resource');
+        } 
+        return res.json();
+      })
+      .then(data => {  
+        setSettingData(data)
+      })
+    }, [])
 
-  const handleChangeLang = (lang) => {
-  if (lang !== selectedLang) {
-      setSelectedLang(lang);
-  }
-  }
-
-  const [selectedTheme, setselectedTheme] = useState(settingData[2].theme);
-
-  const handleChangeTheme = (mode) => {
-  if (mode !== selectedTheme) {
-      setselectedTheme(mode);
-  }
-  }
+    console.log("settingData: ", settingData)
 
 
   return (
     <>
-    <GlobalStyle />
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage name={name} selectedLang={selectedLang} selectedTheme={selectedTheme} />}></Route>
-        <Route path="/setting" 
-        element=
-        {<SettingPage
-        nameBind={nameBind}
-        handleChangeLang={handleChangeLang}
-        handleChangeTheme={handleChangeTheme}
-        selectedLang={selectedLang}
-        selectedTheme={selectedTheme}  />}></Route>
-      </Routes>
-    </BrowserRouter>
+      <GlobalStyle />
+    { settingData && (
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage settingData={settingData} />}></Route>
+            <Route path="/setting" 
+            element=
+            {<SettingPage
+            settingData={settingData}
+            setSettingData={setSettingData}
+            />}></Route>
+          </Routes>
+        </BrowserRouter>
+      )
+    }
     </>
 
   );

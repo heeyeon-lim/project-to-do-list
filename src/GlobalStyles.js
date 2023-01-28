@@ -63,6 +63,14 @@ const GlobalStyle = createGlobalStyle`
   background-color: #404040;
 }
 
+.darkmode-greeting-bar {
+  background-color: #C9F2FF;
+}
+
+.greeting-bar {
+  background-color: #E8DCC7
+}
+
 .setting-options-container {
   display: grid;
   grid-template-rows: 0.8fr 1fr 2.5fr;

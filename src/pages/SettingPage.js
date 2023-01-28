@@ -95,39 +95,65 @@ font-size: 1rem;
 font-weight: 500;
 `
 
-const SettingPage = ({nameBind, handleChangeLang, handleChangeTheme, selectedLang, selectedTheme}) => {
+const SettingPage = ({settingData, setSettingData}) => {
+    const handleChangeName = (e) => {
+        const updatedName = {...settingData, name: e.target.value}
+        setSettingData(updatedName)
+      }
+    
+      const handleChangeLang = (lang) => {
+        const updatedLang = {...settingData, language: lang}
+        setSettingData(updatedLang)
+      }
+    
+      const handleChangeTheme = (theme) => {
+        const updatedTheme = {...settingData, theme: theme}
+        setSettingData(updatedTheme)
+      }
+    
+      const reflectSettingChanges = () => {
+            fetch("http://localhost:4001/setting", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(settingData),
+          })
+          .then(res => res.json())
+          .then(data => setSettingData(data))
+      }    
 
 
     return (
-        <main className={selectedTheme === 'Dark' ? 'darkmode setting' : 'setting'}>
+        <main className={settingData.theme === 'Dark' ? 'darkmode setting' : 'setting'}>
             <div className='setting-options-container'>
                 <NameContainer>
                     <label htmlFor='InputName'>Name</label>
-                    <input type="text" id='InputName' {...nameBind} />
+                    <input type="text" id='InputName' value={settingData.name} onChange={handleChangeName}/>
                 </NameContainer>
 
                 <LanguageContainer className='language-options-container'>
                     <p>Language</p>
                     <div>
-                        <LanguageBtn className={`button ${selectedLang === 'English' ? "active" : ""}`} onClick={() => handleChangeLang('English')}>English</LanguageBtn>
-                        <LanguageBtn className={`button ${selectedLang === 'Korean' ? "active" : ""}`} onClick={() => handleChangeLang('Korean')}>한국어</LanguageBtn>
+                        <LanguageBtn className={`button ${settingData.language === 'English' ? "active" : ""}`} onClick={() => handleChangeLang('English')}>English</LanguageBtn>
+                        <LanguageBtn className={`button ${settingData.language === 'Korean' ? "active" : ""}`} onClick={() => handleChangeLang('Korean')}>한국어</LanguageBtn>
                     </div>
                 </LanguageContainer>
 
                 <ThemeContainer className='theme-container'>
                     <p>Theme</p>
                     <div>
-                    <ThemeBtn className={`button ${selectedTheme === 'Light' ? "active" : ""}`} onClick={() => handleChangeTheme('Light')}>
+                    <ThemeBtn className={`button ${settingData.theme === 'Light' ? "active" : ""}`} onClick={() => handleChangeTheme('Light')}>
                         <img src={LightThemeImage} alt='Light theme' />
                     </ThemeBtn>
-                    <ThemeBtn className={`button ${selectedTheme === 'Dark' ? "active" : ""}`} onClick={() => handleChangeTheme('Dark')}>
+                    <ThemeBtn className={`button ${settingData.theme === 'Dark' ? "active" : ""}`} onClick={() => handleChangeTheme('Dark')}>
                         <img src={DarkThemeImage} alt='Dark theme' />
                     </ThemeBtn>
                     </div>
                 </ThemeContainer>
             </div>
             <div className='buttons-container'>
-                <Link to="/"><SaveCancelBtn className='save-button'>Save</SaveCancelBtn></Link>
+                <Link to="/"><SaveCancelBtn className='save-button' onClick={reflectSettingChanges}>Save</SaveCancelBtn></Link>
             </div>
         </main>
     )

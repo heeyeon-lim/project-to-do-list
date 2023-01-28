@@ -12,17 +12,16 @@ const GreetingBarContainer= styled.div`
         display: flex; 
         justify-content: center;
         align-items: center;
-        background-color: #E8DCC7;
         border-radius: 10px;
         font-size: 2rem;
         font-weight: bold;
     }
 `
 
-const GreetingBar= ({name, selectedLang}) => {
+const GreetingBar= ({name, selectedLang, selectedTheme}) => {
     return (
         <GreetingBarContainer>
-            <div>
+            <div className={selectedTheme==='Dark' ? 'darkmode-greeting-bar' : 'greeting-bar'}>
             {name}'s {selectedLang === 'English' ? 'To Do List' : '투두리스트'}
             </div>
         </GreetingBarContainer>

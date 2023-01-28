@@ -57,7 +57,6 @@ border: ${(props) => (props.readOnly ? 'none' : '1.2px solid #767676')};
 const Tag = ({todo}) => {
   const initialTags = todo.tags;
   
-    // const [tags, setTags] = useState(todoTags);
     const [tags, setTags] = useState(initialTags);
   
       // 태그를 삭제하는 메소드
