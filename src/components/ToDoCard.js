@@ -72,13 +72,26 @@ const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
     .then(data => setTodos(data))
     }
 
-  const [title, titleBind] = useInput(todo.title)
+  const handleEditTitle = (e) => {
+    const updatedTodos = todos.map(todo => {
+      if(todo.id === Number(e.target.id)) {
+        todo.title = e.target.value
+      }
+      return todo
+    }) 
+    setTodos(updatedTodos)
+  }
 
-  // const [title, setTitle] = useState(todo.title)
+  const handleEditTags = (e) => {
+    const updatedTodos = todos.map(todo => {
+      if(todo.id === Number(e.target.id)) {
+        todo.tags = e.target.value
+      }
+      return todo 
+    })
+    setTodos(updatedTodos)
+  }
 
-  // const handleEditTitle = (e) => {
-  //   setTitle(e.target.value)
-  // }
   
     return (
       <li className='to-do-list' id={todo.id}>
@@ -89,9 +102,9 @@ const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
           </div>
           <div className='form-container'>
             <TitleContainer readOnly={!todo.onEdit}>
-              <input readOnly={!todo.onEdit} type="text" className='input-title' {...titleBind}/>
+              <input id={todo.id} readOnly={!todo.onEdit} type="text" className='input-title' value={todo.title} onChange={handleEditTitle} />
             </TitleContainer>
-            <Tag todo={todo} />
+            <Tag todo={todo} handleEditTags={handleEditTags}/>
             <DatePickerComponent todo={todo}/>
           </div>
         </ToDoWrapper> 

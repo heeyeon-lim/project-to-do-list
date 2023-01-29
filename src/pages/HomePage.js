@@ -75,11 +75,19 @@ function HomePage({settingData}) {
         const updatedTodos = todos.map(data => {
             return {...data, onEdit: false}
         });
-        setTodos(updatedTodos)
-        //! 현재 todos를 서버로 보내기 
-        console.log("updated todos: ", updatedTodos)
-        console.log("current todos: ", todos)
-    }
+
+        fetch('http://localhost:4001/home', {
+          method: 'PUT', 
+          headers: {'Content-Type': 'application/json'}, 
+          body: JSON.stringify(updatedTodos)
+        })
+        .then(res => res.json())
+        .then(data => setTodos(data))
+        // ? 서버에서는 모든 객체가 false인데 왜 여기서는 최근 edit 한 객체가 true로 나오지? 
+        console.log(todos)
+      }
+        // ? 여기선 또 잘 나옴...
+        // console.log(todos)
 
 
   return (

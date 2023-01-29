@@ -54,7 +54,7 @@ border: ${(props) => (props.readOnly ? 'none' : '1.2px solid #767676')};
   }
 `
 
-const Tag = ({todo}) => {
+const Tag = ({todo, handleEditTags}) => {
   const initialTags = todo.tags;
   
     const [tags, setTags] = useState(initialTags);
