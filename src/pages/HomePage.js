@@ -12,6 +12,15 @@ import useFetch from '../hooks/useFetch';
 
 function HomePage({settingData}) {
 
+    const statusBarData = [
+        {id: 0, name: 'Not Started', color: ' #fbdbd5'},
+        {id: 1, name: 'In Progress', color: '#FCE8BC'},
+        {id: 2, name: 'Completed', color: '#D3E9D3'}
+    ]
+
+    const [keyword, keywordBind] = useInput('')
+
+  // todoData.length는 변하지않고, todos.length는 삭제되면서 id값이 변동될 수 있다. 그러므로 id를 상태로 만든다.
     const [todos, setTodos] = useState([])
     const [todoId, setTodoId] = useState(0)
 
@@ -28,16 +37,6 @@ function HomePage({settingData}) {
           setTodoId(data.length)
         })
       }, [])
-
-    const statusBarData = [
-        {id: 0, name: 'Not Started', color: ' #fbdbd5'},
-        {id: 1, name: 'In Progress', color: '#FCE8BC'},
-        {id: 2, name: 'Completed', color: '#D3E9D3'}
-    ]
-
-    // todoData.length는 변하지않고, todos.length는 삭제되면서 id값이 변동될 수 있다. 그러므로 id를 상태로 만든다.
-
-    const [keyword, keywordBind] = useInput('')
 
   const handleEditClick = (e) => {
     const updatedTodos = [...todos];
@@ -60,18 +59,16 @@ function HomePage({settingData}) {
         if (e.target.id === '2') newTodo.status = 'Completed'
 
         setTodoId(todoId + 1);
-        // setTodos([...todos, newTodo])
 
-        // fetch('http://localhost:4001/home', {
-        //     method: 'POST',
-        //     headers: {'Content-Type': 'application/json'}, 
-        //     body: JSON.stringify(newTodo)
-        //   })
-        //   .then(res => res.json())
-        //   .then(data => {
-        //     console.log(data)
-        //     // setTodos([...allBlogs, data]);
-        //   })
+        fetch('http://localhost:4001/home', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify(newTodo)
+          })
+          .then(res => res.json())
+          .then(data => {
+            setTodos(data);
+          })
     }
 
     const handleSaveAll = () => {
@@ -79,13 +76,16 @@ function HomePage({settingData}) {
             return {...data, onEdit: false}
         });
         setTodos(updatedTodos)
+        //! 현재 todos를 서버로 보내기 
+        console.log("updated todos: ", updatedTodos)
+        console.log("current todos: ", todos)
     }
 
 
   return (
     <>
-      {/* {
-          todos && ( */}
+      {
+          todos && todoId && (
               <div className={settingData.theme === 'Dark' ? "darkmode app" : "app"} onClick={handleSaveAll}>
             <header className="header">
             <GreetingBar className="greetingBar" name={settingData.name} selectedLang={settingData.language} selectedTheme={settingData.theme} />
@@ -100,8 +100,8 @@ function HomePage({settingData}) {
                 <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} handleEditClick={handleEditClick} keyword={keyword} bar={statusBarData[2]}/>
             </main>
             </div>
-        {/* )
-    } */}
+        )
+    }
     </>
   );
 }

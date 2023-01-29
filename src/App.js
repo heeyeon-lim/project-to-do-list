@@ -27,8 +27,6 @@ function App() {
       })
     }, [])
 
-    console.log("settingData: ", settingData)
-
 
   return (
     <>

@@ -4,6 +4,8 @@ import DatePickerComponent from './DatePicker'
 import EditIcon from '../EditIcon.png'
 import CloseIcon from '../CloseIcon.png'
 
+import {useState} from 'react'
+
 import useInput from '../hooks/useInput';
 
 const ToDoWrapper = styled.div`
@@ -60,11 +62,23 @@ border: red;
 
 const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
   const handleDeleteClick = () => {
-    const updatedTodos = todos.filter((data) => data.id !== todo.id);
-    setTodos(updatedTodos);
-  }
+    const selectedTodo = todos.filter((data) => data.id === todo.id)[0];
+
+    fetch(`http://localhost:4001/home/${selectedTodo.id}`, {
+      method: 'DELETE', 
+      headers: {'Content-Type': 'application/json'}
+    })
+    .then(res => res.json())
+    .then(data => setTodos(data))
+    }
 
   const [title, titleBind] = useInput(todo.title)
+
+  // const [title, setTitle] = useState(todo.title)
+
+  // const handleEditTitle = (e) => {
+  //   setTitle(e.target.value)
+  // }
   
     return (
       <li className='to-do-list' id={todo.id}>
