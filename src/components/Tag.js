@@ -54,37 +54,62 @@ border: ${(props) => (props.readOnly ? 'none' : '1.2px solid #767676')};
   }
 `
 
-const Tag = ({todo, handleEditTags}) => {
+const Tag = ({todo, handleEditTag}) => {
   const initialTags = todo.tags;
-  
-    const [tags, setTags] = useState(initialTags);
-  
-      // 태그를 삭제하는 메소드
-    const removeTags = (indexToRemove) => {
-  
-      // filter는 immutable한 메서드로서, tags 상태를 변환시키지 않고 새로운 배열을 리턴한다. 
-      setTags(tags.filter(tag => tag !== tags[indexToRemove]))
+  const [tags, setTags] = useState(initialTags);
+
+    const removeTags = (indexToRemove, id) => {
+      // setTags(prevTags => {
+      //   const newTags = prevTags.filter(tag => tag !== prevTags[indexToRemove]);
+      //   handleEditTag(id, newTags);
+      //   return newTags;
+      // });
+
+      const newTags = tags.filter(tag => tag !== tags[indexToRemove])
+      setTags(newTags)
+      handleEditTag(id, newTags)
     };
-  
-      // 새로운 태그를 추가하는 메소드
+    
     const addTags = (event) => {
-      // - 이미 입력되어 있는 태그인지 검사하여 이미 있는 태그라면 추가하지 말기
-      // - 아무것도 입력하지 않은 채 Enter 키 입력시, 또는 2개이상 태그 입력시 메소드 실행하지 말기
-      // - 태그가 추가되면 input 창 비우기
-  
       if (event.key === 'Enter') {
+        console.log("target: ", event.target.value)
         if (event.target.value === "") {
+          // do nothing if input is empty 
           
-        } else if (tags.includes(event.target.value) || tags.length >= 2 || event.target.value.length > 12) {
+        } else if (tags.includes(event.target.value)) {
+          // check if the tag already exists
           event.target.value = ""
 
         } else {
-          setTags([...tags, event.target.value])
+          //! Warning: Cannot update a component (`HomePage`) while rendering a different component (`Tag`).
+          //! make sure that you are calling setTags with the updated tags value, instead of calling handleEditTag first.
+          // setTags(prevTags => {
+          //   const newTags = [...prevTags, event.target.value]
+          //   handleEditTag(event.target.id, newTags)
+          //   event.target.value = ""
+          //   return newTags
+          // })
+          const newTags = [...tags, event.target.value]
+          setTags(newTags)
+          handleEditTag(event.target.id, newTags)
           event.target.value = ""
-  
         }
       }
     }
+
+    // const handleEditTag = (id, updatedTags) => {
+    //   setTodos(prevTodos => {
+
+    //     return prevTodos.map(todo => {
+    //       if (todo.id === Number(id)) {
+    //         return {...todo, tags: updatedTags};
+    //       } else {
+    //         return todo;
+    //       }
+    //     });
+    //   });
+    // };
+  
 
       return (
         <TagContainer>
@@ -93,11 +118,11 @@ const Tag = ({todo, handleEditTags}) => {
                 {tags.map((tag, index) => (
                   <li key={index} className='tag'>
                     <span className='tag-title'>{tag}</span>
-                      <span className='tag-close-icon' onClick={() => removeTags(index)}> &times; </span>
+                      <span className='tag-close-icon' onClick={() => removeTags(index, todo.id)}> &times; </span>
                   </li>
                 ))}
               </ul>
-              <input readOnly={!todo.onEdit} className='tag-input' type='text' onKeyUp={(event) => (event.key === 'Enter' ? addTags(event) : null)} /> 
+              <input readOnly={!todo.onEdit} id={todo.id} className='tag-input' type='text' onKeyUp={(event) => (event.key === 'Enter' ? addTags(event) : null)} /> 
           </TagWrapper>
         </TagContainer>
     

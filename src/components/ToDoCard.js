@@ -82,15 +82,19 @@ const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
     setTodos(updatedTodos)
   }
 
-  const handleEditTags = (e) => {
-    const updatedTodos = todos.map(todo => {
-      if(todo.id === Number(e.target.id)) {
-        todo.tags = e.target.value
-      }
-      return todo 
-    })
-    setTodos(updatedTodos)
-  }
+     const handleEditTag = (id, updatedTags) => {
+      setTodos(prevTodos => {
+
+        return prevTodos.map(todo => {
+          if (todo.id === Number(id)) {
+            return {...todo, tags: updatedTags};
+          } else {
+            return todo;
+          }
+        });
+      });
+    };
+  
 
   
     return (
@@ -104,7 +108,7 @@ const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
             <TitleContainer readOnly={!todo.onEdit}>
               <input id={todo.id} readOnly={!todo.onEdit} type="text" className='input-title' value={todo.title} onChange={handleEditTitle} />
             </TitleContainer>
-            <Tag todo={todo} handleEditTags={handleEditTags}/>
+            <Tag todo={todo} handleEditTag={handleEditTag} />
             <DatePickerComponent todo={todo}/>
           </div>
         </ToDoWrapper> 

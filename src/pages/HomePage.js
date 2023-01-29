@@ -84,10 +84,11 @@ function HomePage({settingData}) {
         .then(res => res.json())
         .then(data => setTodos(data))
         // ? 서버에서는 모든 객체가 false인데 왜 여기서는 최근 edit 한 객체가 true로 나오지? 
-        console.log(todos)
+        console.log("todos in handlesaveall: ", todos)
       }
         // ? 여기선 또 잘 나옴...
         // console.log(todos)
+
 
 
   return (
