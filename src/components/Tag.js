@@ -99,7 +99,7 @@ const Tag = ({todo, setTodos}) => {
             <TagWrapper readOnly={!todo.onEdit}>
               <ul id='tags'>
                 {/* 여기서 index는 투두하나의 태그 하나하나의 인덱스 */}
-                {todo.tags.map((tag, index) => (
+                {tags.map((tag, index) => (
                   <li key={index} className='tag'>
                     <span className='tag-title'>{tag}</span>
                       <span className='tag-close-icon' onClick={() => removeTags(index, todo.id)}> &times; </span>
