@@ -3,7 +3,6 @@ import Tag from './Tag';
 import DatePickerComponent from './DatePicker'
 import EditIcon from '../EditIcon.png'
 import CloseIcon from '../CloseIcon.png'
-import { useState } from 'react';
 
 const ToDoWrapper = styled.div`
 width: 100%;
@@ -98,7 +97,7 @@ const ToDoCard = ({todo, todos, setTodos}) => {
           </div>
           <div className='form-container'>
             <TitleContainer readOnly={!todo.onEdit}>
-              <input id={todo.id} readOnly={!todo.onEdit} type="text" className='input-title' value={todo.title} onChange={handleEditTitle} />
+              <input id={todo.id} readOnly={!todo.onEdit} type="text" className='input-title' value={todo.title} onChange={handleEditTitle} autoComplete="off"/>
             </TitleContainer>
             <Tag todo={todo} setTodos={setTodos}/>
             <DatePickerComponent todo={todo}/>
