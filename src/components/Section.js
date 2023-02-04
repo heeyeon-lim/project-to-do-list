@@ -3,13 +3,14 @@ import StatusBar from './StatusBar';
 import ToDoCard from './ToDoCard';
 
 function Section({todos, setTodos, handleAddToDo, handleEditClick, keyword, bar}) {
+
+  const filteredTodos = todos.filter(todo => todo.title.includes(keyword) && todo.status === bar.name)
+  
   return (
     <section>
         {statusBarData.map(bar => <StatusBar key={bar.id} handleAddToDo={handleAddToDo} bar={bar} todos={todos} />)[bar.id]}
         <ul>
-            {todos
-            .filter(todo => todo.status=== bar.name)
-            .filter(todo => todo.title.includes(keyword))
+            {filteredTodos
             .map(todo => 
             <ToDoCard
             key={todo.id}
