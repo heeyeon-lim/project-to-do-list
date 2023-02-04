@@ -10,9 +10,8 @@ const GlobalStyle = createGlobalStyle`
 
 .app {
   display: grid;
-  grid-template-rows: 100px 50px 100vh;
+  grid-template-rows: 100px 50px auto;
   padding: 0 6%;
-  background-color: #fff;
 }
 
 .header {
