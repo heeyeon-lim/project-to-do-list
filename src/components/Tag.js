@@ -75,9 +75,11 @@ const Tag = ({todo, setTodos}) => {
       if (event.key === 'Enter') {
         if (event.target.value === "") {
           // do nothing if input is empty 
+          return null
         } else if (tags.includes(event.target.value)) {
           // check if the tag already exists
           event.target.value = ""
+          return null
         } else {
           const updatedTags = [...tags, event.target.value]
           setTodos(prevTodos => {
