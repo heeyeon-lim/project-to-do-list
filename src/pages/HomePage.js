@@ -79,7 +79,7 @@ function HomePage({settingData}) {
     <>
       {
           todos && todoId && (
-              <div className={settingData.theme === 'Dark' ? "darkmode app" : "app"} onClick={handleSaveAll}>
+              <div className={settingData.theme === 'Dark' ? "darkmode app" : "app"} onMouseDown={handleSaveAll}>
             <header className="header">
             <GreetingBar className="greetingBar" name={settingData.name} selectedLang={settingData.language} selectedTheme={settingData.theme} />
             <SettingIcon />

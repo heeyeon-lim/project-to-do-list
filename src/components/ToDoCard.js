@@ -90,7 +90,7 @@ const ToDoCard = ({todo, todos, setTodos}) => {
   
     return (
       <li className='to-do-list' id={todo.id}>
-        <ToDoWrapper onClick={event => event.stopPropagation()}>
+        <ToDoWrapper onMouseDown={event => event.stopPropagation()}>
           <div className='button-container'>
             <img id={todo.id} role="button" src={EditIcon} onClick={handleEditClick} alt="Edit button" />
             <img role="button" src={CloseIcon} onClick={handleDeleteClick} alt="Delete button" />
