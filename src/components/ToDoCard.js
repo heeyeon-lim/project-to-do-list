@@ -3,10 +3,7 @@ import Tag from './Tag';
 import DatePickerComponent from './DatePicker'
 import EditIcon from '../EditIcon.png'
 import CloseIcon from '../CloseIcon.png'
-
-import {useState} from 'react'
-
-import useInput from '../hooks/useInput';
+import { useState } from 'react';
 
 const ToDoWrapper = styled.div`
 width: 100%;
@@ -60,9 +57,18 @@ border: red;
   }
 `
 
-const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
+const ToDoCard = ({todo, todos, setTodos}) => {
+
+  const handleEditClick = (e) => {
+    const updatedTodos = [...todos];
+    const matchedIdx = updatedTodos.findIndex((el) => el.id === Number(e.target.id))
+    updatedTodos[matchedIdx].onEdit = true;
+    setTodos(updatedTodos)
+  }
+
+
   const handleDeleteClick = () => {
-    const selectedTodo = todos.filter((data) => data.id === todo.id)[0];
+    const selectedTodo = todos.find((data) => data.id === todo.id);
 
     fetch(`http://localhost:4001/home/${selectedTodo.id}`, {
       method: 'DELETE', 
@@ -82,20 +88,6 @@ const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
     setTodos(updatedTodos)
   }
 
-     const handleEditTag = (id, updatedTags) => {
-      setTodos(prevTodos => {
-
-        return prevTodos.map(todo => {
-          if (todo.id === Number(id)) {
-            return {...todo, tags: updatedTags};
-          } else {
-            return todo;
-          }
-        });
-      });
-    };
-  
-
   
     return (
       <li className='to-do-list' id={todo.id}>
@@ -108,7 +100,7 @@ const ToDoCard = ({handleEditClick, todo, todos, setTodos}) => {
             <TitleContainer readOnly={!todo.onEdit}>
               <input id={todo.id} readOnly={!todo.onEdit} type="text" className='input-title' value={todo.title} onChange={handleEditTitle} />
             </TitleContainer>
-            <Tag todo={todo} handleEditTag={handleEditTag} />
+            <Tag todo={todo} setTodos={setTodos}/>
             <DatePickerComponent todo={todo}/>
           </div>
         </ToDoWrapper> 

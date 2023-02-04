@@ -1,14 +1,10 @@
 // 컴포넌트 import 하기 
 import HomePage from './pages/HomePage';
 import SettingPage from './pages/SettingPage';
-// import { settingData } from './dummyData';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
 import {useState, useEffect} from 'react'
-import GlobalStyle from './GlobalStyles';
-
-import useInput from './hooks/useInput';
-import useFetch from './hooks/useFetch';
+import GlobalStyle from './GlobalStyles'
 
 function App() {
 
@@ -35,18 +31,12 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage settingData={settingData} />}></Route>
-            <Route path="/setting" 
-            element=
-            {<SettingPage
-            settingData={settingData}
-            setSettingData={setSettingData}
-            />}></Route>
+            <Route path="/setting" element={<SettingPage settingData={settingData} setSettingData={setSettingData}/>}></Route>
           </Routes>
         </BrowserRouter>
       )
     }
     </>
-
   );
 }
 

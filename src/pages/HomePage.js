@@ -3,12 +3,8 @@ import GreetingBar from '../components/GreetingBar';
 import SettingIcon from '../components/SettingIcon'
 import SearchBar from '../components/SearchBar';
 import Section from '../components/Section';
-
 import {useState, useEffect} from 'react'
-
 import useInput from '../hooks/useInput';
-
-import useFetch from '../hooks/useFetch';
 
 function HomePage({settingData}) {
 
@@ -37,13 +33,6 @@ function HomePage({settingData}) {
           setTodoId(data.length)
         })
       }, [])
-
-  const handleEditClick = (e) => {
-    const updatedTodos = [...todos];
-    const matchedIdx = updatedTodos.findIndex((el) => el.id === Number(e.target.id))
-    updatedTodos[matchedIdx].onEdit = true;
-    setTodos(updatedTodos)
-}
 
     const handleAddToDo = (e) => {
         const newTodo = {
@@ -82,13 +71,8 @@ function HomePage({settingData}) {
           body: JSON.stringify(updatedTodos)
         })
         .then(res => res.json())
-        .then(data => setTodos(data))
-        // ? 서버에서는 모든 객체가 false인데 왜 여기서는 최근 edit 한 객체가 true로 나오지? 
-        console.log("todos in handlesaveall: ", todos)
+        .then((data) => setTodos(data))
       }
-        // ? 여기선 또 잘 나옴...
-        // console.log(todos)
-
 
 
   return (
@@ -104,9 +88,9 @@ function HomePage({settingData}) {
             <SearchBar keywordBind={keywordBind}/>
             </div>
             <main className="main">
-                <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} handleEditClick={handleEditClick} keyword={keyword} bar={statusBarData[0]} />
-                <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} handleEditClick={handleEditClick} keyword={keyword} bar={statusBarData[1]}/>
-                <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} handleEditClick={handleEditClick} keyword={keyword} bar={statusBarData[2]}/>
+                <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[0]} />
+                <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[1]}/>
+                <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[2]}/>
             </main>
             </div>
         )

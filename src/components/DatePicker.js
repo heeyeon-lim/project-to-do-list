@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from 'styled-components'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons'
 
 
 const CalenderContainer = styled.div`
@@ -25,15 +27,16 @@ const DatePickerComponent = ({todo}) => {
   const [startDate, setStartDate] = useState(new Date());
   return (
     <CalenderContainer>
-      <DatePicker
-      selected={startDate}
-      onChange={(date) => setStartDate(date)}
-      minDate = {new Date()}
-      dateFormat = "yyyy.MM.dd"
-      readOnly={!todo.onEdit}
-      customInput={<InputCalendar />}
-      wrapperClassName="custom-datepicker-wrapper"
+      <DatePicker 
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+        minDate = {new Date()}
+        dateFormat = "yyyy.MM.dd"
+        readOnly={!todo.onEdit}
+        customInput={<InputCalendar />}
+        wrapperClassName="custom-datepicker-wrapper"
       />
+      <FontAwesomeIcon icon={faCalendarDays} />
     </CalenderContainer>
   );
 };

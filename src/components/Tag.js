@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 const TagContainer = styled.div`
@@ -54,75 +53,60 @@ border: ${(props) => (props.readOnly ? 'none' : '1.2px solid #767676')};
   }
 `
 
-const Tag = ({todo, handleEditTag}) => {
-  const initialTags = todo.tags;
-  const [tags, setTags] = useState(initialTags);
+const Tag = ({todo, setTodos}) => {
 
-    const removeTags = (indexToRemove, id) => {
-      // setTags(prevTags => {
-      //   const newTags = prevTags.filter(tag => tag !== prevTags[indexToRemove]);
-      //   handleEditTag(id, newTags);
-      //   return newTags;
-      // });
+  const tags = todo.tags
+  
+  const removeTags = (indexToRemove, id) => {
+    const updatedTags = todo.tags.filter(tag => tag !== tags[indexToRemove])
 
-      const newTags = tags.filter(tag => tag !== tags[indexToRemove])
-      setTags(newTags)
-      handleEditTag(id, newTags)
+    setTodos(prevTodos => {
+      return prevTodos.map(todo => {
+        if (todo.id === id) {
+          return {...todo, tags: updatedTags};
+        } else {
+          return todo;
+        }
+      });
+    });
     };
     
     const addTags = (event) => {
       if (event.key === 'Enter') {
-        console.log("target: ", event.target.value)
         if (event.target.value === "") {
           // do nothing if input is empty 
-          
         } else if (tags.includes(event.target.value)) {
           // check if the tag already exists
           event.target.value = ""
-
         } else {
-          //! Warning: Cannot update a component (`HomePage`) while rendering a different component (`Tag`).
-          //! make sure that you are calling setTags with the updated tags value, instead of calling handleEditTag first.
-          // setTags(prevTags => {
-          //   const newTags = [...prevTags, event.target.value]
-          //   handleEditTag(event.target.id, newTags)
-          //   event.target.value = ""
-          //   return newTags
-          // })
-          const newTags = [...tags, event.target.value]
-          setTags(newTags)
-          handleEditTag(event.target.id, newTags)
+          const updatedTags = [...tags, event.target.value]
+          setTodos(prevTodos => {
+            return prevTodos.map(todo => {
+              if (todo.id === Number(event.target.id)) {
+                return {...todo, tags: updatedTags};
+              } else {
+                return todo;
+              }
+            });
+          });
           event.target.value = ""
         }
       }
     }
 
-    // const handleEditTag = (id, updatedTags) => {
-    //   setTodos(prevTodos => {
-
-    //     return prevTodos.map(todo => {
-    //       if (todo.id === Number(id)) {
-    //         return {...todo, tags: updatedTags};
-    //       } else {
-    //         return todo;
-    //       }
-    //     });
-    //   });
-    // };
-  
-
       return (
         <TagContainer>
             <TagWrapper readOnly={!todo.onEdit}>
               <ul id='tags'>
-                {tags.map((tag, index) => (
+                {/* 여기서 index는 투두하나의 태그 하나하나의 인덱스 */}
+                {todo.tags.map((tag, index) => (
                   <li key={index} className='tag'>
                     <span className='tag-title'>{tag}</span>
                       <span className='tag-close-icon' onClick={() => removeTags(index, todo.id)}> &times; </span>
                   </li>
                 ))}
               </ul>
-              <input readOnly={!todo.onEdit} id={todo.id} className='tag-input' type='text' onKeyUp={(event) => (event.key === 'Enter' ? addTags(event) : null)} /> 
+              <input readOnly={!todo.onEdit} className='tag-input' type='text' onKeyUp={(event) => (event.key === 'Enter' ? addTags(event) : null)} /> 
           </TagWrapper>
         </TagContainer>
     
