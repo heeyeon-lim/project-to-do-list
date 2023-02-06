@@ -3,6 +3,7 @@ import Tag from './Tag';
 import DatePickerComponent from './DatePicker'
 import EditIcon from '../EditIcon.png'
 import CloseIcon from '../CloseIcon.png'
+import { useRef, useEffect } from 'react'
 
 const ToDoWrapper = styled.div`
 width: 100%;
@@ -58,11 +59,14 @@ border: red;
 
 const ToDoCard = ({todo, todos, setTodos}) => {
 
+  const titleRef = useRef()
+
   const handleEditClick = (e) => {
     const updatedTodos = [...todos];
     const matchedIdx = updatedTodos.findIndex((el) => el.id === Number(e.target.id))
     updatedTodos[matchedIdx].onEdit = true;
     setTodos(updatedTodos)
+    titleRef.current.focus()
   }
 
 
@@ -97,10 +101,10 @@ const ToDoCard = ({todo, todos, setTodos}) => {
           </div>
           <div className='form-container'>
             <TitleContainer readOnly={!todo.onEdit}>
-              <input id={todo.id} readOnly={!todo.onEdit} type="text" className='input-title' value={todo.title} onChange={handleEditTitle} autoComplete="off"/>
+              <input id={todo.id} ref={titleRef} readOnly={!todo.onEdit} type="text" className='input-title' value={todo.title} onChange={handleEditTitle} autoComplete="off"/>
             </TitleContainer>
-            <Tag todo={todo} setTodos={setTodos}/>
-            <DatePickerComponent todo={todo}/>
+            <Tag todo={todo} setTodos={setTodos} />
+            <DatePickerComponent todo={todo} />
           </div>
         </ToDoWrapper> 
         </li>
