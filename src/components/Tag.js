@@ -53,7 +53,7 @@ border: ${(props) => (props.readOnly ? 'none' : '1.2px solid #767676')};
   }
 `
 
-const Tag = ({todo, setTodos}) => {
+const Tag = ({todo, setTodos, tagRef}) => {
 
   const tags = todo.tags
   
@@ -74,8 +74,6 @@ const Tag = ({todo, setTodos}) => {
     const addTags = (event) => {
       if (event.key === 'Enter') {
         if (event.target.value === "") {
-          // do nothing if input is empty 
-          return null
         } else if (tags.includes(event.target.value)) {
           // check if the tag already exists
           event.target.value = ""
@@ -108,7 +106,7 @@ const Tag = ({todo, setTodos}) => {
                   </li>
                 ))}
               </ul>
-              <input readOnly={!todo.onEdit} className='tag-input' type='text' onKeyUp={(event) => (event.key === 'Enter' ? addTags(event) : null)} /> 
+              <input id={todo.id} ref={tagRef} readOnly={!todo.onEdit} className='tag-input' type='text' onKeyUp={(event) => (event.key === 'Enter' ? addTags(event) : null)} /> 
           </TagWrapper>
         </TagContainer>
     
