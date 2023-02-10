@@ -65,27 +65,16 @@ const Tag = ({todo, tagRef}) => {
   
   const removeTags = (indexToRemove, id) => {
     const updatedTags = todo.tags.filter(tag => tag !== tags[indexToRemove])
-      
-    //   ))
-    //   (prevTodos => {
-    //   return prevTodos.map(todo => {
-    //     if (todo.id === id) {
-    //       return {...todo, tags: updatedTags};
-    //     } else {
-    //       return todo;
-    //     }
-    //   });
-    // });
-    // };
-    
-        {
-          todos.map(todo => {
-            if (todo.id === id) {
-              dispatch(changeTodos({...todo, tag: updatedTags}))
-            } 
-          })
-        }
 
+    const updatedTodos = todos.map(todo => {
+      if (todo.id === id) {
+        return {...todo, tags: updatedTags} 
+      }
+      return todo;
+    });
+
+    dispatch(changeTodos(updatedTodos))
+      
   }
     
     const addTags = (event) => {
@@ -97,22 +86,16 @@ const Tag = ({todo, tagRef}) => {
           return null
         } else {
           const updatedTags = [...tags, event.target.value]
-          {
-            todos.map(todo => {
-              if (todo.id === Number(event.target.id)) {
-                dispatch(changeTodos({...todo, tag: updatedTags}))
-              } 
-            })
-          }
-          // setTodos(prevTodos => {
-          //   return prevTodos.map(todo => {
-          //     if (todo.id === Number(event.target.id)) {
-          //       return {...todo, tags: updatedTags};
-          //     } else {
-          //       return todo;
-          //     }
-          //   });
-          // });
+          const updatedTodos = todos.map(todo => {
+            if (todo.id === Number(event.target.id)) {
+              return {...todo, tags: updatedTags}
+            } else {
+              return todo
+            }
+          })
+
+          dispatch(changeTodos(updatedTodos))
+
           event.target.value = ""
         }
       }

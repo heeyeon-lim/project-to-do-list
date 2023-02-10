@@ -3,7 +3,9 @@ import Tag from './Tag';
 import DatePickerComponent from './DatePicker'
 import EditIcon from '../EditIcon.png'
 import CloseIcon from '../CloseIcon.png'
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { changeTodos } from '../slices/todos';
 
 const ToDoWrapper = styled.div`
 width: 100%;
@@ -16,7 +18,6 @@ border-radius: 10px;
 background-color: #ffff;
 border: solid 1px #dedede;
 box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-
 > .button-container {
   width: 100%;
   height: 15%; 
@@ -29,7 +30,6 @@ box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
     margin: 0 5px; 
   }
 }
-
 > .form-container {
   width: 100%;
   height: 85%; 
@@ -45,7 +45,6 @@ display: flex;
 align-items: center;
 justify-content: flex-start;
 border: red;
-
   > .input-title {
   width: 75%;
   height: 70%;
@@ -57,15 +56,21 @@ border: red;
   }
 `
 
-const ToDoCard = ({todo, todos, setTodos}) => {
+const ToDoCard = ({todo}) => {
+
+  const dispatch = useDispatch()
+  const todos = useSelector(state => state.todos.value)
 
   const titleRef = useRef()
 
   const handleEditClick = (e) => {
-    const updatedTodos = [...todos];
-    const matchedIdx = updatedTodos.findIndex((el) => el.id === Number(e.target.id))
-    updatedTodos[matchedIdx].onEdit = true;
-    setTodos(updatedTodos)
+    const updatedTodos = todos.map(todo => {
+      if (todo.id === Number(e.target.id)) {
+        return {...todo, onEdit: true} 
+      }
+      return todo;
+    });
+    dispatch(changeTodos(updatedTodos))
     titleRef.current.focus()
   }
 
@@ -78,17 +83,17 @@ const ToDoCard = ({todo, todos, setTodos}) => {
       headers: {'Content-Type': 'application/json'}
     })
     .then(res => res.json())
-    .then(data => setTodos(data))
+    .then(data => dispatch(changeTodos(data)))
     }
 
   const handleEditTitle = (e) => {
     const updatedTodos = todos.map(todo => {
       if(todo.id === Number(e.target.id)) {
-        todo.title = e.target.value
+        return {...todo, title: e.target.value}
       }
       return todo
     }) 
-    setTodos(updatedTodos)
+    dispatch(changeTodos(updatedTodos))
   }
 
   
@@ -103,7 +108,7 @@ const ToDoCard = ({todo, todos, setTodos}) => {
             <TitleContainer readOnly={!todo.onEdit}>
               <input id={todo.id} ref={titleRef} readOnly={!todo.onEdit} type="text" className='input-title' value={todo.title} onChange={handleEditTitle} autoComplete="off"/>
             </TitleContainer>
-            <Tag todo={todo} setTodos={setTodos} />
+            <Tag todo={todo} />
             <DatePickerComponent todo={todo} />
           </div>
         </ToDoWrapper> 

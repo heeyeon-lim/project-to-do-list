@@ -1,8 +1,11 @@
 import {statusBarData} from '../dummyData';
 import StatusBar from './StatusBar';
 import ToDoCard from './ToDoCard';
+import { useSelector } from 'react-redux';
 
-function Section({todos, setTodos, handleAddToDo, keyword, bar}) {
+function Section({handleAddToDo, keyword, bar}) {
+
+  const todos = useSelector(state => state.todos.value)
 
   const filteredTodos = todos.filter(todo => todo.title.includes(keyword) && todo.status === bar.name)
 
@@ -15,9 +18,7 @@ function Section({todos, setTodos, handleAddToDo, keyword, bar}) {
             .map(todo => 
             <ToDoCard
             key={todo.id}
-            todo={todo}
-            todos={todos}
-            setTodos={setTodos} />)}
+            todo={todo} />)}
         </ul>
     </section>
   )

@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import LightThemeImage from '../LightThemeImage.png';
 import DarkThemeImage from '../DarkThemeImage.png';
 import {Link} from 'react-router-dom'
+import { useEffect } from 'react';
+
+// modify state -> useDispatch , access state -> useSelector
+import { useDispatch, useSelector } from 'react-redux'
+import { changeSetting } from '../slices/setting';
 
 const NameContainer = styled.div`
 display: flex; 
@@ -95,20 +100,30 @@ font-size: 1rem;
 font-weight: 500;
 `
 
-const SettingPage = ({settingData, setSettingData}) => {
+const SettingPage = () => {
+    const dispatch = useDispatch();
+
+    const setting = useSelector((state) => state.setting.value)
+
     const handleChangeName = (e) => {
-        const updatedName = {...settingData, name: e.target.value}
-        setSettingData(updatedName)
+        // const updatedName = {...settingData, name: e.target.value}
+        // setSettingData(updatedName)
+        const updatedName = {...setting, name: e.target.value}
+        dispatch(changeSetting(updatedName))
       }
     
       const handleChangeLang = (lang) => {
-        const updatedLang = {...settingData, language: lang}
-        setSettingData(updatedLang)
+        // const updatedLang = {...settingData, language: lang}
+        // setSettingData(updatedLang)
+        const updatedLang = {...setting, language: lang}
+        dispatch(changeSetting(updatedLang))
       }
     
       const handleChangeTheme = (theme) => {
-        const updatedTheme = {...settingData, theme: theme}
-        setSettingData(updatedTheme)
+        // const updatedTheme = {...settingData, theme: theme}
+        // setSettingData(updatedTheme)
+        const updatedTheme = {...setting, theme: theme}
+        dispatch(changeSetting(updatedTheme))
       }
     
       const reflectSettingChanges = () => {
@@ -117,36 +132,44 @@ const SettingPage = ({settingData, setSettingData}) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(settingData),
+            // body: JSON.stringify(settingData),
+            body: JSON.stringify(setting),
           })
           .then(res => res.json())
-          .then(data => setSettingData(data))
-      }    
+          .then(data => 
+            {
+            console.log("data:", data) // 새로운 데이터 잘 들어오는거 확인했음.
+            dispatch(changeSetting(data))
+            })
+        }
+
+        //   .then(data => setSettingData(data))
 
 
     return (
-        <main className={settingData.theme === 'Dark' ? 'darkmode setting' : 'setting'}>
+        <main className={setting.theme === 'Dark' ? 'darkmode setting' : 'setting'}>
             <div className='setting-options-container'>
                 <NameContainer>
                     <label htmlFor='InputName'>Name</label>
-                    <input type="text" id='InputName' value={settingData.name} onChange={handleChangeName}/>
+                    {/* <input type="text" id='InputName' value={settingData.name} onChange={handleChangeName}/> */}
+                    <input type="text" id='InputName' value={setting.name} onChange={handleChangeName}/>
                 </NameContainer>
 
                 <LanguageContainer className='language-options-container'>
                     <p>Language</p>
                     <div>
-                        <LanguageBtn className={`button ${settingData.language === 'English' ? "active" : ""}`} onClick={() => handleChangeLang('English')}>English</LanguageBtn>
-                        <LanguageBtn className={`button ${settingData.language === 'Korean' ? "active" : ""}`} onClick={() => handleChangeLang('Korean')}>한국어</LanguageBtn>
+                        <LanguageBtn className={`button ${setting.language === 'English' ? "active" : ""}`} onClick={() => handleChangeLang('English')}>English</LanguageBtn>
+                        <LanguageBtn className={`button ${setting.language === 'Korean' ? "active" : ""}`} onClick={() => handleChangeLang('Korean')}>한국어</LanguageBtn>
                     </div>
                 </LanguageContainer>
 
                 <ThemeContainer className='theme-container'>
                     <p>Theme</p>
                     <div>
-                    <ThemeBtn className={`button ${settingData.theme === 'Light' ? "active" : ""}`} onClick={() => handleChangeTheme('Light')}>
+                    <ThemeBtn className={`button ${setting.theme === 'Light' ? "active" : ""}`} onClick={() => handleChangeTheme('Light')}>
                         <img src={LightThemeImage} alt='Light theme' />
                     </ThemeBtn>
-                    <ThemeBtn className={`button ${settingData.theme === 'Dark' ? "active" : ""}`} onClick={() => handleChangeTheme('Dark')}>
+                    <ThemeBtn className={`button ${setting.theme === 'Dark' ? "active" : ""}`} onClick={() => handleChangeTheme('Dark')}>
                         <img src={DarkThemeImage} alt='Dark theme' />
                     </ThemeBtn>
                     </div>

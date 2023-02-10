@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 const GreetingBarContainer= styled.div`
     width: 80%;
@@ -18,12 +19,20 @@ const GreetingBarContainer= styled.div`
     }
 `
 
-const GreetingBar= ({name, selectedLang, selectedTheme}) => {
+const GreetingBar= ({selectedLang, selectedTheme}) => {
+    // const setting = useSelector((state) => state.setting.value)
+    const setting = useSelector((state) => state.setting.value)
+    
     return (
         <GreetingBarContainer>
-            <div className={selectedTheme==='Dark' ? 'darkmode-greeting-bar' : 'greeting-bar'}>
+            {/* <div className={selectedTheme==='Dark' ? 'darkmode-greeting-bar' : 'greeting-bar'}>
             {name}'s {selectedLang === 'English' ? 'To Do List' : '투두리스트'}
+            </div> */}
+
+            <div className={setting.theme==='Dark' ? 'darkmode-greeting-bar' : 'greeting-bar'}>
+            {setting.name}'s {setting.language === 'English' ? 'To Do List' : '투두리스트'}
             </div>
+
         </GreetingBarContainer>
     )
 }

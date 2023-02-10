@@ -36,7 +36,7 @@ const DatePickerComponent = ({todo}) => {
         customInput={<InputCalendar />}
         wrapperClassName="custom-datepicker-wrapper"
       />
-      <FontAwesomeIcon icon={faCalendarDays} />
+      {/* <FontAwesomeIcon icon={faCalendarDays} /> */}
     </CalenderContainer>
   );
 };

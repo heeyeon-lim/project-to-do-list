@@ -5,10 +5,13 @@ import SettingPage from './pages/SettingPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
 import {useState, useEffect} from 'react'
 import GlobalStyle from './GlobalStyles'
+import { useDispatch } from 'react-redux'
+import { changeSetting } from './slices/setting'
 
 function App() {
 
-  const [settingData, setSettingData] = useState()
+  // const [settingData, setSettingData] = useState()
+  const dispatch = useDispatch()
 
   useEffect(() => {
       fetch('http://localhost:4001/setting')
@@ -19,7 +22,8 @@ function App() {
         return res.json();
       })
       .then(data => {  
-        setSettingData(data)
+        // setSettingData(data)
+        dispatch(changeSetting(data))
       })
     }, [])
 
@@ -27,15 +31,15 @@ function App() {
   return (
     <>
       <GlobalStyle />
-    { settingData && (
+    {/* { settingData && ( */}
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<HomePage settingData={settingData} />}></Route>
-            <Route path="/setting" element={<SettingPage settingData={settingData} setSettingData={setSettingData}/>}></Route>
+            <Route path="/" element={<HomePage />}></Route>
+            <Route path="/setting" element={<SettingPage />}></Route>
           </Routes>
         </BrowserRouter>
-      )
-    }
+      {/* ) */}
+     {/* } */}
     </>
   );
 }

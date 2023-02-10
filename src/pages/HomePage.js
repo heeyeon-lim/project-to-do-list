@@ -6,7 +6,15 @@ import Section from '../components/Section';
 import {useState, useEffect} from 'react'
 import useInput from '../hooks/useInput';
 
-function HomePage({settingData}) {
+import { useDispatch, useSelector } from 'react-redux';
+import { changeTodos } from '../slices/todos';
+
+function HomePage() {
+
+  const dispatch = useDispatch()
+
+  const setting = useSelector(state => state.setting.value)
+  const todos = useSelector(state => state.todos.value)
 
     const statusBarData = [
         {id: 0, name: 'Not Started', color: ' #fbdbd5'},
@@ -17,7 +25,7 @@ function HomePage({settingData}) {
     const [keyword, keywordBind] = useInput('')
 
   // todoData.length는 변하지않고, todos.length는 삭제되면서 id값이 변동될 수 있다. 그러므로 id를 상태로 만든다.
-    const [todos, setTodos] = useState([])
+    // const [todos, setTodos] = useState([])
     const [todoId, setTodoId] = useState(0)
 
     useEffect(() => {
@@ -29,7 +37,9 @@ function HomePage({settingData}) {
           return res.json();
         })
         .then(data => {
-          setTodos(data);
+          dispatch(changeTodos(data))
+          // console.log()
+          // setTodos(data);
           setTodoId(data.length)
         })
       }, [])
@@ -56,7 +66,8 @@ function HomePage({settingData}) {
           })
           .then(res => res.json())
           .then(data => {
-            setTodos(data);
+            // setTodos(data);
+            dispatch(changeTodos(data))
           })
     }
 
@@ -71,7 +82,7 @@ function HomePage({settingData}) {
           body: JSON.stringify(updatedTodos)
         })
         .then(res => res.json())
-        .then((data) => setTodos(data))
+        .then((data) => dispatch(changeTodos(data)))
       }
 
 
@@ -79,18 +90,18 @@ function HomePage({settingData}) {
     <>
       {
           todos && todoId && (
-              <div className={settingData.theme === 'Dark' ? "darkmode app" : "app"} onMouseDown={handleSaveAll}>
+              <div className={setting.theme === 'Dark' ? "darkmode app" : "app"} onMouseDown={handleSaveAll}>
             <header className="header">
-            <GreetingBar className="greetingBar" name={settingData.name} selectedLang={settingData.language} selectedTheme={settingData.theme} />
+            <GreetingBar className="greetingBar" name={setting.name} selectedLang={setting.language} selectedTheme={setting.theme} />
             <SettingIcon />
             </header>
             <div className="search">
             <SearchBar keywordBind={keywordBind}/>
             </div>
             <main className="main">
-                <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[0]} />
-                <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[1]}/>
-                <Section todos={todos} setTodos={setTodos} handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[2]}/>
+                <Section handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[0]} />
+                <Section handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[1]}/>
+                <Section handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[2]}/>
             </main>
             </div>
         )
