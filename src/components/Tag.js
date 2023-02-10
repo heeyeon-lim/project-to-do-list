@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeTodos } from '../slices/todos';
 
 const TagContainer = styled.div`
 width: 100%;
@@ -32,6 +34,7 @@ border: ${(props) => (props.readOnly ? 'none' : '1.2px solid #767676')};
 
       > .tag-title {
         padding-right: 8px;
+        white-space: nowrap;
       }
 
       > .tag-close-icon {
@@ -47,29 +50,43 @@ border: ${(props) => (props.readOnly ? 'none' : '1.2px solid #767676')};
     border: none;
     font-size: 0.8rem;
     border: red;
+    white-space: nowrap;
     :focus {
       outline: transparent;
     }
   }
 `
 
-const Tag = ({todo, setTodos, tagRef}) => {
+const Tag = ({todo, tagRef}) => {
+  const dispatch = useDispatch()
+  const todos = useSelector(state => state.todos.value)
 
   const tags = todo.tags
   
   const removeTags = (indexToRemove, id) => {
     const updatedTags = todo.tags.filter(tag => tag !== tags[indexToRemove])
-
-    setTodos(prevTodos => {
-      return prevTodos.map(todo => {
-        if (todo.id === id) {
-          return {...todo, tags: updatedTags};
-        } else {
-          return todo;
+      
+    //   ))
+    //   (prevTodos => {
+    //   return prevTodos.map(todo => {
+    //     if (todo.id === id) {
+    //       return {...todo, tags: updatedTags};
+    //     } else {
+    //       return todo;
+    //     }
+    //   });
+    // });
+    // };
+    
+        {
+          todos.map(todo => {
+            if (todo.id === id) {
+              dispatch(changeTodos({...todo, tag: updatedTags}))
+            } 
+          })
         }
-      });
-    });
-    };
+
+  }
     
     const addTags = (event) => {
       if (event.key === 'Enter') {
@@ -80,15 +97,22 @@ const Tag = ({todo, setTodos, tagRef}) => {
           return null
         } else {
           const updatedTags = [...tags, event.target.value]
-          setTodos(prevTodos => {
-            return prevTodos.map(todo => {
+          {
+            todos.map(todo => {
               if (todo.id === Number(event.target.id)) {
-                return {...todo, tags: updatedTags};
-              } else {
-                return todo;
-              }
-            });
-          });
+                dispatch(changeTodos({...todo, tag: updatedTags}))
+              } 
+            })
+          }
+          // setTodos(prevTodos => {
+          //   return prevTodos.map(todo => {
+          //     if (todo.id === Number(event.target.id)) {
+          //       return {...todo, tags: updatedTags};
+          //     } else {
+          //       return todo;
+          //     }
+          //   });
+          // });
           event.target.value = ""
         }
       }
