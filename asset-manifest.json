@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/project-to-do-list-app/static/css/main.746f1836.css",
+    "main.js": "/project-to-do-list-app/static/js/main.d5055653.js",
+    "static/media/LightThemeImage.png": "/project-to-do-list-app/static/media/LightThemeImage.01634f297c9b8e22d28b.png",
+    "static/media/DarkThemeImage.png": "/project-to-do-list-app/static/media/DarkThemeImage.c16a5881173b744ee1df.png",
+    "index.html": "/project-to-do-list-app/index.html",
+    "main.746f1836.css.map": "/project-to-do-list-app/static/css/main.746f1836.css.map",
+    "main.d5055653.js.map": "/project-to-do-list-app/static/js/main.d5055653.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.746f1836.css",
+    "static/js/main.d5055653.js"
+  ]
+}
