@@ -1,0 +1,1 @@
+module.exports = {name: 'HY', language: 'English', theme: 'Light'}
