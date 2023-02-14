@@ -90,15 +90,15 @@ function HomePage() {
     <>
       {
           todos && todoId && (
-              <div className={setting.theme === 'Dark' ? "darkmode app" : "app"} onMouseDown={handleSaveAll}>
-            <header className="header">
+            <div className={setting.theme === 'Dark' ? "darkmode home" : "home"} onMouseDown={handleSaveAll}>
+            <header className="home-header">
             <GreetingBar className="greetingBar" name={setting.name} selectedLang={setting.language} selectedTheme={setting.theme} />
             <SettingIcon />
             </header>
-            <div className="search">
+            <div className="home-search">
             <SearchBar keywordBind={keywordBind}/>
             </div>
-            <main className="main">
+            <main className="home-main">
                 <Section handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[0]} />
                 <Section handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[1]}/>
                 <Section handleAddToDo={handleAddToDo} keyword={keyword} bar={statusBarData[2]}/>

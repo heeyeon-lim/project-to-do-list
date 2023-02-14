@@ -8,23 +8,20 @@ const GlobalStyle = createGlobalStyle`
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
 
-.app {
+.home {
   height: 100%;
   display: grid;
   grid-template-rows: 100px 50px minmax(100vh, auto);
   padding: 0 6%;
 }
 
-.header {
+.home-header {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.search {
-}
-
-.main {
+.home-main {
   display: grid;
   grid-gap: 3.6%;
   grid-template-columns: repeat(3, 1fr);
@@ -59,23 +56,12 @@ const GlobalStyle = createGlobalStyle`
   background-color: #fff;
 }
 
-.darkmode {
-  background-color: #404040;
-}
-
-.darkmode-greeting-bar {
-  background-color: #C9F2FF;
-}
-
-.greeting-bar {
-  background-color: #E8DCC7
-}
-
 .setting-options-container {
   display: grid;
   grid-template-rows: 0.8fr 1fr 2.5fr;
   grid-row-gap: 5%;
   padding-left: 250px;
+  padding-bottom: 10px;
 }
 
 .buttons-container {
@@ -92,6 +78,19 @@ const GlobalStyle = createGlobalStyle`
 // list속성의 bullet point 제거
 .to-do-list {
   list-style: none;
+}
+
+// dark mode 
+.darkmode {
+  background-color: #404040;
+}
+
+.darkmode-greeting-bar {
+  background-color: #C9F2FF;
+}
+
+.greeting-bar {
+  background-color: #E8DCC7
 }
 `
 
