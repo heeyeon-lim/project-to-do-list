@@ -12,7 +12,6 @@ npm install
 npm run start // run client
 
 cd server
-cd server
 npm start // run server 
 ```
 <br/>
